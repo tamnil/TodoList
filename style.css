@@ -1,0 +1,255 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  list-style-type: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.3vw;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 10vh 8vh 78vh 4vh;
+  grid-template-columns: 3fr 1.5fr;
+  grid-template-areas:
+    'header header'
+    'form aside-title'
+    'main aside'
+    'footer footer';
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+  color: white;
+  grid-area: header;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #277790;
+  grid-area: form;
+}
+
+form input[type='text'] {
+  width: 90%;
+  padding: 1%;
+  margin-left: 2%;
+  margin-right: 1%;
+}
+
+form button {
+  background-color: #262626;
+  color: white;
+  padding: 1% 2.5%;
+  margin-right: 2%;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #75abbc;
+}
+
+main {
+  background-color: #ececec;
+  grid-area: main;
+  overflow-y: scroll;
+}
+
+main .todo-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ececec;
+}
+
+main .todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  height: 7vw;
+  margin: 1.2%;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 5px #3b3b3b;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.todo-item-completed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  height: 7vw;
+  margin: 1.2%;
+  background-color: rgb(156, 204, 150);
+  box-shadow: 1px 1px 5px #3b3b3b;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.item-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #277790;
+  color: #fff;
+  height: 100%;
+  width: 7vw;
+  min-width: 31px;
+  font-weight: bold;
+}
+
+.item-img > img {
+  width: 60%;
+}
+.item-text {
+  margin: 3%;
+  font-weight: bold;
+}
+.item-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #fff;
+  height: 100%;
+  width: 20%;
+  margin-right: 10px;
+}
+
+.item-buttons > button {
+  width: 100%;
+  height: 80%;
+  margin: 5%;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.complete-button {
+  background-color: rgb(156, 204, 61);
+}
+.complete-button:hover {
+  background-color: rgb(94, 126, 30);
+  color: #fff;
+}
+
+.delete-button {
+  background-color: rgb(233, 98, 74);
+}
+.delete-button:hover {
+  background-color: rgb(165, 61, 42);
+  color: #fff;
+}
+
+.aside-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #bfe8f4;
+  grid-area: aside-title;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #75abbc;
+  background: linear-gradient(180deg, #bfe8f4 0%, #75abbc 100%);
+  grid-area: aside;
+}
+
+aside > textarea {
+  width: 90%;
+  height: 95%;
+  resize: none;
+  padding: 3%;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+  color: rgba(255, 255, 255, 0.329);
+  grid-area: footer;
+}
+
+footer h4 {
+  font-weight: lighter;
+  font-size: 0.8vw;
+}
+
+.fa {
+  font-size: 1.3vw;
+}
+
+@media (max-width: 950px) {
+  * {
+    font-size: 2.5vw;
+  }
+  .container {
+    grid-template-rows: 8vh 7vh 57vh 5vh 21vh 2vh;
+    grid-template-areas:
+      'header header'
+      'form form'
+      'main main'
+      'aside-title aside-title'
+      'aside aside'
+      'footer footer';
+  }
+
+  .todo-list li {
+    height: 18vw;
+  }
+
+  .item-buttons {
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .item-buttons > button {
+    width: 10vw;
+  }
+
+  form > input {
+    height: 5vw;
+    font-size: 2vw;
+  }
+
+  form > button {
+    height: 5vw;
+    text-align: center;
+  }
+
+  .fa {
+    font-size: 3vw;
+  }
+
+  footer > h4 {
+    font-size: 1.5vw;
+  }
+
+  .item-img {
+    width: 16vw;
+  }
+ 
+}
