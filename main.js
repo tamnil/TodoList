@@ -58,8 +58,6 @@ const button = (el) => el.closest("button");
 
 const element = (ev) => ev.target;
 
-
-
 const completeTask = (button) =>
   isTodoItem && taskObject(taskList)(button)
     ? updateItem(taskItem(button), taskObject(taskList)(button))
@@ -72,7 +70,7 @@ const deleteTaskObject = (object) => (list) => (button) => {
 // Check if task was deleted or not, change it's state and style
 const deleteTask = (taskList) => (btn) => {
   taskItem(btn).remove();
-    deleteTaskObject(taskObject)(taskList)(btn);
+  deleteTaskObject(taskObject)(taskList)(btn);
 };
 
 const saveTaskLocalStorage = (taskList) =>
@@ -85,7 +83,7 @@ const updateTask = (event) =>
 // add an event to entire list to check if 'complete' or 'delete' button was clicked and runs it's function
 toDoListContainer.addEventListener("click", (event) => {
   not(button(element(event))) || updateTask(event);
-    console.log(taskList)
+  console.log(taskList);
   saveTaskLocalStorage(taskList);
 });
 
@@ -113,27 +111,33 @@ const addTaskObjectToList = (taskObject, array) => {
 };
 
 // create an object to represent the element properties
-const createTaskObject = (taskId, taskText, taskCompleted, taskDeleted) =>  ({
-    id: taskId,
-    text: taskText,
-    completed: taskCompleted,
-    deleted: taskDeleted,
-})
+const createTaskObject = (taskId, taskText, taskCompleted, taskDeleted) => ({
+  id: taskId,
+  text: taskText,
+  completed: taskCompleted,
+  deleted: taskDeleted,
+});
 
-;
+// check if already exists data in local storage
+
+const loadData = (taskList) => {
+  id = taskList.length;
+  loadTaskList(taskList);
+};
 
 // initializes the id property and get the list of task objects from local storage
 let id = 0;
 let data = localStorage.getItem("toDoList");
 
-// check if already exists data in local storage
+// main:
+
 if (data) {
+  taskList = JSON.parse(data); // caution, global
   // load the existent data
-  taskList = JSON.parse(data);
-  id = taskList.length;
-  loadTaskList(taskList);
+  loadData(taskList);
 } else {
   // initialize a new data
+  // initializeData();
   taskList = [];
   id = 0;
 }
