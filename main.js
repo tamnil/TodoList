@@ -90,15 +90,15 @@ const updateTask = (event) =>
 // add an event to entire list to check if 'complete' or 'delete' button was clicked and runs it's function
 toDoListContainer.addEventListener("click", (event) => {
   not(button(element(event))) || updateTask(event);
-  console.log(taskList);
   saveTaskLocalStorage(taskList);
 });
 
-const addTask = (event) => {
-  event.preventDefault();
-  const taskText = userTextInput.value;
 
-  if (taskText) {
+
+
+
+const addTask = (taskText,toDoListContainer,id) => {
+
     const taskObject = createTaskObject(id, taskText, false, false);
     createNewTaskItem(toDoListContainer, id, taskText, false, false);
     addTaskObjectToList(taskObject, taskList);
@@ -106,11 +106,19 @@ const addTask = (event) => {
     userTextInput.value = "";
     id++; //global
     localStorage.setItem("toDoList", JSON.stringify(taskList));
-  }
+
+}
+
+const addTaskListener = (event) => {
+  event.preventDefault();
+  const taskText = userTextInput.value;
+
+  not(taskText) || addTask(taskText,toDoListContainer,id)
+
 };
 
 // add an event to the 'add new task button' to create a task and it's dependencies
-addButton.addEventListener("click", addTask);
+addButton.addEventListener("click", addTaskListener);
 
 // add the task object to the list of task objects
 const addTaskObjectToList = (taskObject, array) => array.push(taskObject);
