@@ -1,3 +1,9 @@
+// initial states declaration
+let id = 0;
+let data = localStorage.getItem("toDoList");
+
+//basic functions
+
 const querySelector = (x) => document.querySelector(x);
 const toDoListContainer = querySelector(".todo-list");
 const userTextInput = querySelector("#user-input");
@@ -30,8 +36,9 @@ const tpl = {
   `,
 };
 
-const taskCompleted = (completed) =>
-  completed ? "todo-item-completed" : "todo-item";
+const taskCompleted = (isCompleted) =>
+  isCompleted ? "todo-item-completed" : "todo-item";
+
 const renderItem = (completed, text, id) =>
   tpl.item(taskCompleted(completed), text, id);
 
@@ -87,28 +94,26 @@ toDoListContainer.addEventListener("click", (event) => {
   saveTaskLocalStorage(taskList);
 });
 
-const event1 = (event) => {
+const addTask = (event) => {
   event.preventDefault();
   const taskText = userTextInput.value;
 
   if (taskText) {
-    createNewTaskItem(toDoListContainer, id, taskText, false, false);
     const taskObject = createTaskObject(id, taskText, false, false);
+    createNewTaskItem(toDoListContainer, id, taskText, false, false);
     addTaskObjectToList(taskObject, taskList);
 
     userTextInput.value = "";
-    id++;
+    id++; //global
     localStorage.setItem("toDoList", JSON.stringify(taskList));
   }
 };
 
 // add an event to the 'add new task button' to create a task and it's dependencies
-addButton.addEventListener("click", event1);
+addButton.addEventListener("click", addTask);
 
 // add the task object to the list of task objects
-const addTaskObjectToList = (taskObject, array) => {
-  array.push(taskObject);
-};
+const addTaskObjectToList = (taskObject, array) => array.push(taskObject);
 
 // create an object to represent the element properties
 const createTaskObject = (taskId, taskText, taskCompleted, taskDeleted) => ({
@@ -126,8 +131,6 @@ const loadData = (taskList) => {
 };
 
 // initializes the id property and get the list of task objects from local storage
-let id = 0;
-let data = localStorage.getItem("toDoList");
 
 // main:
 
