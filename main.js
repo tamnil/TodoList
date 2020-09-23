@@ -3,7 +3,7 @@ const toDoListContainer = querySelector(".todo-list");
 const userTextInput = querySelector("#user-input");
 const addButton = querySelector("#add-button");
 const isTodoItem = (taskItem) => taskItem.className === "todoitem";
-const not =(x) => !x
+const not = (x) => !x;
 
 // load all task items on screen
 const loadTaskList = (array) =>
@@ -40,7 +40,6 @@ const createNewTaskItem = (container, id, text, completed, deleted) =>
   deleted ||
   container.insertAdjacentHTML("beforeend", renderItem(completed, text, id));
 
-
 // Check if task is completed or not, change it's state and style
 const updateItem = (taskItem, taskObject) => {
   taskItem.className = "todo-item-completed";
@@ -55,36 +54,42 @@ const updateItemInv = (taskItem, taskObject) => {
 const taskItem = (button) => button.closest("li");
 const taskObject = (taskList) => (button) => taskList[button.id];
 
-const button = el => el.closest("button");
+const button = (el) => el.closest("button");
+
+const element = (ev) => ev.target;
+
+
 
 const completeTask = (button) =>
-  isTodoItem && taskObject
-    ? updateItem(taskItem(button), taskObject(taskList, button))
-    : updateItemInv(taskItem, taskObject(taskList, button));
-const deleteTaskObject = taskObject => taskList => {taskObject(taskList).deleted = true}
+  isTodoItem && taskObject(taskList)(button)
+    ? updateItem(taskItem(button), taskObject(taskList)(button))
+    : updateItemInv(taskItem, taskObject(taskList)(button));
 
-// Check if task was deleted or not, change it's state and style
-const deleteTask = (button) => {
-  taskItem(button).remove();
-  not(taskObject(taskList)) ||  deleteTaskObject(taskObject)(taskList);
-
+const deleteTaskObject = (object) => (list) => (button) => {
+  object(list)(button).deleted = true;
 };
 
-const element = ev => ev.target;
-const saveTaskLocalStorage = taskList => localStorage.setItem("toDoList", JSON.stringify(taskList));
+// Check if task was deleted or not, change it's state and style
+const deleteTask = (taskList) => (btn) => {
+  taskItem(btn).remove();
+    deleteTaskObject(taskObject)(taskList)(btn);
+};
+
+const saveTaskLocalStorage = (taskList) =>
+  localStorage.setItem("toDoList", JSON.stringify(taskList));
 const updateTask = (event) =>
-    button(element(event)).className === "complete-button"
-      ? completeTask(button(element(event)))
-      : deleteTask(button(element(event)));
+  button(element(event)).className === "complete-button"
+    ? completeTask(button(element(event)))
+    : deleteTask(taskList)(button(element(event)));
 
 // add an event to entire list to check if 'complete' or 'delete' button was clicked and runs it's function
 toDoListContainer.addEventListener("click", (event) => {
-
-  not(button(element(event))) ||  updateTask(event)
-    saveTaskLocalStorage(taskList)
+  not(button(element(event))) || updateTask(event);
+    console.log(taskList)
+  saveTaskLocalStorage(taskList);
 });
 
-const event1 =  (event) => {
+const event1 = (event) => {
   event.preventDefault();
   const taskText = userTextInput.value;
 
@@ -97,10 +102,10 @@ const event1 =  (event) => {
     id++;
     localStorage.setItem("toDoList", JSON.stringify(taskList));
   }
-}
+};
 
 // add an event to the 'add new task button' to create a task and it's dependencies
-addButton.addEventListener("click",event1);
+addButton.addEventListener("click", event1);
 
 // add the task object to the list of task objects
 const addTaskObjectToList = (taskObject, array) => {
@@ -108,14 +113,14 @@ const addTaskObjectToList = (taskObject, array) => {
 };
 
 // create an object to represent the element properties
-const createTaskObject = (taskId, taskText, taskCompleted, taskDeleted) => {
-  return {
+const createTaskObject = (taskId, taskText, taskCompleted, taskDeleted) =>  ({
     id: taskId,
     text: taskText,
     completed: taskCompleted,
     deleted: taskDeleted,
-  };
-};
+})
+
+;
 
 // initializes the id property and get the list of task objects from local storage
 let id = 0;
